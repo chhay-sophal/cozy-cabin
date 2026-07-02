@@ -5,5 +5,10 @@
     "description": "Giving you a feeling inside a cozy cabin while it's raining outside.",
     "chrome_url_overrides": {
         "newtab": "index.html"
+    },
+    "browser_specific_settings": {
+        "safari": {
+            "strict_min_version": "15.0"
+        }
     }
 }
