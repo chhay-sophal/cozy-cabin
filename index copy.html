@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozy Cabin New Tab</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 1. Ensure the root elements take up the entire screen */
+        html, body {
+            width: 100%;
+            height: 100vh; /* Using vh guarantees full viewport height */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000; /* Smooth black background while video loads */
+        }
+
+        .nunito-font {
+            font-family: "Nunito", sans-serif;
+            font-optical-sizing: auto;
+        }
+
+        .fredoka-font {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* 2. Force the video to scale like a background image */
+        .background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Liquid Glass Clock Overlay Container */
+        .clock-container {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            text-align: center;
+            pointer-events: none;
+
+            /* Liquid Glass Capsule Properties */
+            padding: 15px 40px;
+            border-radius: 50px; /* Gives it that smooth, organic droplet edge */
+            background: rgba(255, 255, 255, 0.08); /* Highly transparent white base */
+            
+            /* The Core Glass Effect: Blurs the underlying mp4 video */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            
+            /* High-fidelity glossy rim highlights */
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.45); /* Simulates top-down lighting reflection */
+            border-left: 1.2px solid rgba(255, 255, 255, 0.35);
+
+            /* Multi-layered shadows: one deep dark shadow, one soft inner glow */
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 4px 12px rgba(255, 255, 255, 0.15);
+        }
+
+        .clock-time {
+            font-size: 4.5rem; /* Marginally adjusted to sit elegantly in the capsule */
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95); /* Slight transparency blends it into the glass */
+            letter-spacing: 1px;
+            line-height: 1;
+            
+            /* Refined text shadow to complement the surrounding glass structure */
+            text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); 
+        }
+    </style>
+</head>
+<body>
+    <!-- Added loop, muted, and playsinline so Chrome doesn't block autoplay -->
+    <video class="background-video" src="cozy-cabin.mp4" autoplay loop muted playsinline></video>
+
+    <!-- Clock Element -->
+    <!-- <div class="clock-container">
+        <div class="clock-time nunito-font" id="clock">00:00:00</div>
+    </div> -->
+
+    <!-- Glassmorphic Clock Capsule -->
+    <div class="clock-container">
+        <!-- Kept Fredoka font here as it pairs beautifully with organic, liquid shapes -->
+        <div class="clock-time fredoka-font" id="clock">00:00:00</div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
