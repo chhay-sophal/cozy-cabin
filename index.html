@@ -61,7 +61,30 @@
             <div class="liquidGlass-tint"></div>
             <div class="liquidGlass-shine"></div>
             <div class="liquidGlass-text modal-inner">
-                <!-- Insert this inside <div class="liquidGlass-text modal-inner"> right above <h3>Customize Quick Links</h3> -->
+                <div class="settings-section">
+                    <label class="setting-label">Cozy Ambient Sounds</label>
+                    <div class="sound-mixer-grid">
+                        <!-- Fireplace Control Block -->
+                        <div class="sound-card" data-sound="fireplace">
+                            <span class="sound-icon">🔥</span>
+                            <span class="sound-name">Fireplace</span>
+                        </div>
+
+                        <!-- Rain Control Block -->
+                        <div class="sound-card" data-sound="rain">
+                            <span class="sound-icon">🌧️</span>
+                            <span class="sound-name">Gentle Rain</span>
+                        </div>
+
+                        <!-- Lo-Fi Control Block -->
+                        <div class="sound-card" data-sound="lofi">
+                            <span class="sound-icon">🎵</span>
+                            <span class="sound-name">Soft Lo-Fi</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="modal-divider">
+
                 <div class="settings-section">
                     <label class="setting-label">Default Search Engine</label>
                     
@@ -82,6 +105,7 @@
                     </div>
                 </div>
                 <hr class="modal-divider">
+
                 <h3>Customize Quick Links</h3>
                 <div id="links-editor-list"></div>
                 <div class="modal-actions">
@@ -112,5 +136,10 @@
 
     <!-- External Script Reference -->
     <script src="index.js"></script>
+
+    <!-- Hidden Audio Loop Engine -->
+    <audio id="audio-fireplace" src="sounds/freesound_community-lit-fireplace-6307.mp3" loop></audio>
+    <audio id="audio-rain" src="sounds/cryptowista-gentle-rain-falling-suburban-gardens-ambient-background-315737.mp3" loop></audio>
+    <audio id="audio-lofi" src="sounds/udit_paul-piano-loop-10809.mp3" loop></audio>
 </body>
 </html>

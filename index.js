@@ -226,3 +226,83 @@ document.getElementById('save-links-btn').addEventListener('click', () => {
 
 // Run Initial App configuration states on system mount load
 applySearchEngine();
+
+// --- AMBIENT SOUND MIXER STATE ---
+const soundStates = {
+    fireplace: localStorage.getItem('sound-fireplace') === 'true',
+    rain: localStorage.getItem('sound-rain') === 'true',
+    lofi: localStorage.getItem('sound-lofi') === 'true'
+};
+
+const soundCards = document.querySelectorAll('.sound-card');
+
+// Synchronize sound tracks to match structural state rules
+function syncAudioPlayback() {
+    Object.keys(soundStates).forEach(key => {
+        const audioElement = document.getElementById(`audio-${key}`);
+        if (!audioElement) return;
+
+        if (soundStates[key]) {
+            // Play track safely, ignoring promise interruptions if the user hasn't clicked anything yet
+            audioElement.play().catch(() => {
+                console.log(`Audio playback for ${key} is queued, waiting for user click interaction.`);
+            });
+        } else {
+            audioElement.pause();
+        }
+    });
+}
+
+// Initial Sync helper for the layout button highlighting
+function updateMixerUI() {
+    soundCards.forEach(card => {
+        const soundKey = card.getAttribute('data-sound');
+        if (soundStates[soundKey]) {
+            card.classList.add('active');
+        } else {
+            card.classList.remove('active');
+        }
+    });
+}
+
+// Bind interactive toggle clicks to the option cards
+soundCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const soundKey = card.getAttribute('data-sound');
+        
+        // Flip state logic dynamically
+        soundStates[soundKey] = !soundStates[soundKey];
+        
+        // Update live interface indicators and execute preview immediately
+        updateMixerUI();
+        syncAudioPlayback();
+    });
+});
+
+// --- INTEGRATION WITH EXISTING OPEN/SAVE HANDLERS ---
+
+// Sync UI when opening settings menu
+document.getElementById('open-settings-btn').addEventListener('click', () => {
+    updateMixerUI();
+    // ... rest of your existing quick links/search engine display logic[cite: 3]
+});
+
+// Permanently save state options when user clicks save
+document.getElementById('save-links-btn').addEventListener('click', () => {
+    // Save configuration variables cleanly to local data tables
+    Object.keys(soundStates).forEach(key => {
+        localStorage.setItem(`sound-${key}`, soundStates[key]);
+    });
+    
+    syncAudioPlayback();
+    // ... rest of your existing saving logic[cite: 3]
+});
+
+// Trigger setup on page initialization
+updateMixerUI();
+
+// Auto-activate saved channels instantly if user interacts with page anywhere
+window.addEventListener('click', () => {
+    syncAudioPlayback();
+}, { once: true }); // Runs only once to bypass browser audio restrictions safely
