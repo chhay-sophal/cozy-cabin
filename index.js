@@ -122,3 +122,107 @@ function updateClock() {
 
 updateClock();
 setInterval(updateClock, 1000);
+
+// --- ENGINE MANAGEMENT CONFIGURATIONS ---
+const SEARCH_ENGINES = {
+    google: { name: 'Google', url: 'https://www.google.com/search' },
+    bing: { name: 'Bing', url: 'https://www.bing.com/search' },
+    duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/' }
+};
+
+let currentEngine = localStorage.getItem('search-engine') || 'google';
+let selectedEngineTemp = currentEngine;
+
+const searchForm = document.getElementById('search-form');
+const searchInput = document.getElementById('search-input');
+
+// Custom Dropdown Elements 
+const dropdownContainer = document.getElementById('custom-dropdown');
+const dropdownTriggerText = document.getElementById('dropdown-trigger-text');
+const optionItems = document.querySelectorAll('.dropdown-option-item');
+
+function applySearchEngine() {
+    const engineData = SEARCH_ENGINES[currentEngine];
+    if (searchForm && searchInput) {
+        searchForm.setAttribute('action', engineData.url);
+        searchInput.placeholder = `Search ${engineData.name}...`;
+    }
+}
+
+function updateDropdownUI(value) {
+    selectedEngineTemp = value;
+    if (dropdownTriggerText) {
+        dropdownTriggerText.textContent = SEARCH_ENGINES[value].name;
+    }
+    
+    optionItems.forEach(item => {
+        if (item.getAttribute('data-value') === value) {
+            item.classList.add('selected');
+        } else {
+            item.classList.remove('selected');
+        }
+    });
+}
+
+// Safely configure Dropdown Listeners if structure context exists
+if (dropdownContainer) {
+    const triggerZone = dropdownContainer.querySelector('.custom-dropdown-trigger');
+    
+    if (triggerZone) {
+        triggerZone.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents instant window body collapse closure triggers
+            dropdownContainer.classList.toggle('open');
+        });
+    }
+
+    optionItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const val = item.getAttribute('data-value');
+            if (val) {
+                updateDropdownUI(val);
+                dropdownContainer.classList.remove('open');
+            }
+        });
+    });
+
+    // Close options window when clicking anywhere outside the component zone
+    window.addEventListener('click', (e) => {
+        if (!dropdownContainer.contains(e.target)) {
+            dropdownContainer.classList.remove('open');
+        }
+    });
+}
+
+// Hook directly into your existing Modal Trigger Configuration
+document.getElementById('open-settings-btn').addEventListener('click', () => {
+    updateDropdownUI(currentEngine);
+    renderEditor();
+    modal.classList.add('active');
+});
+
+// Update Save Handler to commit standard configurations smoothly
+document.getElementById('save-links-btn').addEventListener('click', () => {
+    // 1. Core Quick Links Logic Execution Pipeline
+    const rows = editorList.getElementsByClassName('link-row');
+    const updatedLinks = [];
+    for (let row of rows) {
+        const emoji = row.querySelector('.input-emoji').value.trim();
+        const url = row.querySelector('.input-url').value.trim();
+        if (emoji && url) updatedLinks.push({ emoji, url });
+    }
+    userLinks = updatedLinks;
+    localStorage.setItem('custom-dock-links', JSON.stringify(userLinks));
+    renderDock();
+
+    // 2. Commit Engine Selection safely to storage
+    currentEngine = selectedEngineTemp;
+    localStorage.setItem('search-engine', currentEngine);
+    applySearchEngine();
+
+    if (dropdownContainer) dropdownContainer.classList.remove('open');
+    modal.classList.remove('active');
+});
+
+// Run Initial App configuration states on system mount load
+applySearchEngine();
