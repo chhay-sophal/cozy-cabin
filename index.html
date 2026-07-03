@@ -19,7 +19,7 @@
 
     <!-- Liquid Glass Clock Capsule Setup -->
     <div class="clock-positioner">
-        <div class="liquidGlass-wrapper">
+        <div class="liquidGlass-wrapper liquidGlass-wrapper-interactive">
             <div class="liquidGlass-effect"></div>
             <div class="liquidGlass-tint"></div>
             <div class="liquidGlass-shine"></div>
@@ -40,14 +40,32 @@
 
     <!-- Quick Links Dock -->
     <div class="dock-container">
-        <div class="liquidGlass-wrapper small-dock">
+        <div class="liquidGlass-wrapper liquidGlass-wrapper-interactive small-dock">
             <div class="liquidGlass-effect"></div>
             <div class="liquidGlass-tint"></div>
             <div class="liquidGlass-shine"></div>
-            <div class="liquidGlass-text dock-links">
-                <a href="https://github.com" title="GitHub">🐙</a>
-                <a href="https://gitlab.com" title="GitLab">🦊</a>
-                <a href="https://calendar.google.com" title="Google Calendar">📅</a>
+            <div class="liquidGlass-text">
+                <!-- Links will be injected here dynamically by JavaScript -->
+                <div class="dock-links" id="dynamic-links"></div>
+            </div>
+        </div>
+        <!-- Floating Settings Gear -->
+        <button class="dock-settings-btn" id="open-settings-btn">⚙️</button>
+    </div>
+
+    <!-- Settings Overlay Modal -->
+    <div class="settings-modal" id="settings-modal">
+        <div class="liquidGlass-wrapper modal-content">
+            <div class="liquidGlass-effect"></div>
+            <div class="liquidGlass-tint"></div>
+            <div class="liquidGlass-shine"></div>
+            <div class="liquidGlass-text modal-inner">
+                <h3>Customize Quick Links</h3>
+                <div id="links-editor-list"></div>
+                <div class="modal-actions">
+                    <button id="add-link-btn" class="glass-btn">Add New Link</button>
+                    <button id="save-links-btn" class="glass-btn save-btn">Save & Close</button>
+                </div>
             </div>
         </div>
     </div>
