@@ -277,18 +277,32 @@ body {
     position: fixed;
     inset: 0;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.4); /* Background appears instantly */
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    /* Toggle visibility instantly so we don't choke the SVG filter */
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
 }
 
+/* Target the inner glass container inside the modal */
+.settings-modal .modal-content {
+    /* Instead of fading, we smoothly scale it into view */
+    transform: scale(0) rotate(5deg); 
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- THE ACTIVE STATE --- */
 .settings-modal.active {
-    opacity: 1;
+    opacity: 1; /* Snaps on instantly */
     pointer-events: auto;
+}
+
+/* When active, pop the glass content out smoothly */
+.settings-modal.active .modal-content {
+    transform: scale(1) rotate(0deg);
 }
 
 .modal-content:hover {
