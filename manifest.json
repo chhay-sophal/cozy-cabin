@@ -5,5 +5,8 @@
     "description": "Giving you a feeling inside a cozy cabin while it's raining outside.",
     "chrome_url_overrides": {
         "newtab": "index.html"
+    },
+    "icons": {
+        "128": "cozy-cabin-square-128.png"
     }
 }
