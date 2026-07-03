@@ -3,171 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cozy Cabin New Tab - stretch animation when clicked</title>
+    <title>Cozy Cabin New Tab</title>
     
     <!-- Google Fonts Imports -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
 
-    <style>
-        /* 1. Root & Core Canvas Layout */
-        html, body {
-            width: 100%;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Full Screen Background Video */
-        .background-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        /* 2. Liquid Glass Clock Overlay Structure */
-        .clock-positioner {
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .liquidGlass-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-radius: 2.5rem;
-            
-            pointer-events: auto; 
-            cursor: pointer;
-
-            padding: 1.2rem 3.5rem;
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1);
-            
-            /* Enhanced transition curve to allow a springy bounce on click release */
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.42, 1.45);
-            user-select: none; /* Prevents double-clicks from highlighting text */
-        }
-
-        /* --- THE HOVER INTERACTIONS --- */
-        .liquidGlass-wrapper:hover {
-            transform: scale(1.06); 
-            padding: 1.5rem 4rem; 
-            border-radius: 3rem;
-            background: rgba(255, 255, 255, 0.18); 
-            box-shadow: 
-                0 30px 50px rgba(0, 0, 0, 0.5), 
-                0 0 30px rgba(255, 255, 255, 0.1);
-        }
-
-        /* --- THE CLICK (BOUNCY ACTIVE) STATE --- */
-        .liquidGlass-wrapper:active {
-            /* Squishes the height down (0.92) while stretching width out (1.12) slightly */
-            transform: scale(1.12, 0.92); 
-            
-            /* Compresses the padding slightly to simulate physical pressure */
-            padding: 1.1rem 4.2rem; 
-            
-            /* Flattens the drop shadow against the background video */
-            box-shadow: 
-                0 5px 15px rgba(0, 0, 0, 0.4), 
-                0 0 10px rgba(255, 255, 255, 0.05);
-            
-            /* Accelerates the click-down animation speed */
-            transition: all 0.1s ease-out; 
-        }
-
-        /* Synchronize inner child layer shapes during transitions */
-        .liquidGlass-wrapper > div {
-            border-radius: 2.5rem;
-            transition: border-radius 0.5s ease;
-        }
-        .liquidGlass-wrapper:hover > div {
-            border-radius: 3rem;
-        }
-
-        /* Dynamic refraction map across the background stream */
-        .liquidGlass-effect {
-            position: absolute;
-            z-index: 0;
-            inset: 0;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            filter: url(#glass-distortion);
-            overflow: hidden;
-        }
-
-        /* Frosting tint barrier */
-        .liquidGlass-tint {
-            z-index: 1;
-            position: absolute;
-            inset: 0;
-        }
-
-        /* Gloss highlights and deep internal lighting curves */
-        .liquidGlass-shine {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            overflow: hidden;
-            box-shadow: 
-                inset 3px 3px 2px 0 rgba(255, 255, 255, 0.4),
-                inset -2px -2px 2px 1px rgba(255, 255, 255, 0.2);
-            transition: box-shadow 0.5s ease;
-        }
-        
-        .liquidGlass-wrapper:hover .liquidGlass-shine {
-            box-shadow: 
-                inset 5px 5px 4px 0 rgba(255, 255, 255, 0.6),
-                inset -3px -3px 3px 1px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Puffy Clock Typography Shell */
-        .liquidGlass-text {
-            z-index: 3;
-            position: relative;
-        }
-
-        .clock-time {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 5rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.95);
-            letter-spacing: 2px;
-            line-height: 1;
-            text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-            transition: all 0.5s ease;
-        }
-
-        .liquidGlass-wrapper:hover .clock-time {
-            letter-spacing: 4px;
-            text-shadow: 0px 6px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Warps the text layout mildly inside the pressed capsule */
-        .liquidGlass-wrapper:active .clock-time {
-            letter-spacing: 6px;
-            transform: scale(0.95, 1.05); /* Counter-stretches text so numbers stay legible */
-            transition: all 0.1s ease-out;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
@@ -176,12 +19,99 @@
 
     <!-- Liquid Glass Clock Capsule Setup -->
     <div class="clock-positioner">
-        <div class="liquidGlass-wrapper">
+        <div class="liquidGlass-wrapper liquidGlass-wrapper-interactive">
             <div class="liquidGlass-effect"></div>
             <div class="liquidGlass-tint"></div>
             <div class="liquidGlass-shine"></div>
             <div class="liquidGlass-text">
+                <div class="clock-subtext" id="greeting">Hello</div>
                 <div class="clock-time" id="clock">00:00:00</div>
+                <div class="clock-subtext" id="date">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Glass Search Bar -->
+    <div class="search-container">
+        <form id="search-form" action="https://www.google.com/search" method="GET">
+            <input type="text" id="search-input" name="q" placeholder="Search Google..." autocomplete="off" class="glass-search">
+        </form>
+    </div>
+
+    <!-- Quick Links Dock -->
+    <div class="dock-container">
+        <div class="liquidGlass-wrapper liquidGlass-wrapper-interactive small-dock">
+            <div class="liquidGlass-effect"></div>
+            <div class="liquidGlass-tint"></div>
+            <div class="liquidGlass-shine"></div>
+            <div class="liquidGlass-text">
+                <!-- Links will be injected here dynamically by JavaScript -->
+                <div class="dock-links" id="dynamic-links"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Settings Gear -->
+    <button class="dock-settings-btn" id="open-settings-btn">⚙️</button>
+
+    <!-- Settings Overlay Modal -->
+    <div class="settings-modal" id="settings-modal">
+        <div class="liquidGlass-wrapper modal-content">
+            <div class="liquidGlass-effect"></div>
+            <div class="liquidGlass-tint"></div>
+            <div class="liquidGlass-shine"></div>
+            <div class="liquidGlass-text modal-inner">
+                <div class="settings-section">
+                    <label class="setting-label">Cozy Ambient Sounds</label>
+                    <div class="sound-mixer-grid">
+                        <!-- Fireplace Control Block -->
+                        <div class="sound-card" data-sound="fireplace">
+                            <span class="sound-icon">🔥</span>
+                            <span class="sound-name">Fireplace</span>
+                        </div>
+
+                        <!-- Rain Control Block -->
+                        <div class="sound-card" data-sound="rain">
+                            <span class="sound-icon">🌧️</span>
+                            <span class="sound-name">Gentle Rain</span>
+                        </div>
+
+                        <!-- Lo-Fi Control Block -->
+                        <div class="sound-card" data-sound="lofi">
+                            <span class="sound-icon">🎵</span>
+                            <span class="sound-name">Soft Lo-Fi</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="modal-divider">
+
+                <div class="settings-section">
+                    <label class="setting-label">Default Search Engine</label>
+                    
+                    <!-- Custom Glass Dropdown Container -->
+                    <div class="custom-dropdown" id="custom-dropdown">
+                        <!-- Trigger/Header block mimicking your interactive buttons -->
+                        <div class="custom-dropdown-trigger">
+                            <div class="liquidGlass-text trigger-text" id="dropdown-trigger-text">Google</div>
+                            <span class="dropdown-chevron">▼</span>
+                        </div>
+
+                        <!-- Pop-out Options Tray floating underneath -->
+                        <div class="custom-dropdown-options" id="dropdown-options-tray">
+                            <div class="dropdown-option-item" data-value="google">Google</div>
+                            <div class="dropdown-option-item" data-value="bing">Bing</div>
+                            <div class="dropdown-option-item" data-value="duckduckgo">DuckDuckGo</div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="modal-divider">
+
+                <h3>Customize Quick Links</h3>
+                <div id="links-editor-list"></div>
+                <div class="modal-actions">
+                    <button id="add-link-btn" class="glass-btn">Add New Link</button>
+                    <button id="save-links-btn" class="glass-btn save-btn">Save & Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -206,5 +136,10 @@
 
     <!-- External Script Reference -->
     <script src="index.js"></script>
+
+    <!-- Hidden Audio Loop Engine -->
+    <audio id="audio-fireplace" src="sounds/freesound_community-lit-fireplace-6307.mp3" loop></audio>
+    <audio id="audio-rain" src="sounds/cryptowista-gentle-rain-falling-suburban-gardens-ambient-background-315737.mp3" loop></audio>
+    <audio id="audio-lofi" src="sounds/udit_paul-piano-loop-10809.mp3" loop></audio>
 </body>
 </html>
